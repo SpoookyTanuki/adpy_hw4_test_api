@@ -20,8 +20,5 @@ class TestCommands():
     def teardown(self):
         print('method tearDown')
 
-    def put_album_check(self):
+    def test_put_album(self):
         assert put_album(yadisk_token), 200
-
-
-put_album(yadisk_token)
