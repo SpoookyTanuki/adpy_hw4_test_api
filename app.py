@@ -11,7 +11,7 @@ directories = {
 }
 
 
-def check_document_existence(user_doc_number):
+def check_document_existance(user_doc_number):
     doc_founded = False
     for current_document in documents:
         doc_number = current_document['number']
@@ -23,7 +23,7 @@ def check_document_existence(user_doc_number):
 
 def get_doc_owner_name(input_doc):
     user_doc_number = input_doc
-    doc_exist = check_document_existence(user_doc_number)
+    doc_exist = check_document_existance(user_doc_number)
     if doc_exist:
         for current_document in documents:
             doc_number = current_document['number']
@@ -64,7 +64,7 @@ def append_doc_to_shelf(doc_number, shelf_number):
 
 
 def delete_doc(user_doc_number):
-    doc_exist = check_document_existence(user_doc_number)
+    doc_exist = check_document_existance(user_doc_number)
     if doc_exist:
         for current_document in documents:
             doc_number = current_document['number']
@@ -74,9 +74,8 @@ def delete_doc(user_doc_number):
                 return doc_number, True
 
 
-
 def get_doc_shelf(user_doc_number):
-    doc_exist = check_document_existence(user_doc_number)
+    doc_exist = check_document_existance(user_doc_number)
     if doc_exist:
         for directory_number, directory_docs_list in directories.items():
             if user_doc_number in directory_docs_list:
@@ -95,13 +94,19 @@ def show_document_info(document):
     doc_type = document['type']
     doc_number = document['number']
     doc_owner_name = document['name']
-    print('{} "{}" "{}"'.format(doc_type, doc_number, doc_owner_name))
+    return('{} "{}" "{}"'.format(doc_type, doc_number, doc_owner_name))
 
 
 def show_all_docs_info():
-    print('Список всех документов:\n')
+    # print('Список всех документов:\n')
+    doc_list = []
     for current_document in documents:
-        show_document_info(current_document)
+        doc_type = current_document['type']
+        doc_number = current_document['number']
+        doc_owner_name = current_document['name']
+        doc_list.append('{} "{}" "{}"'.format(doc_type, doc_number, doc_owner_name))
+    return doc_list
+
 
 
 def add_new_doc(new_doc_number, new_doc_type, new_doc_owner_name, new_doc_shelf_number):
@@ -130,7 +135,7 @@ def secretary_program_start():
     """
     print(
         'Вас приветствует программа помошник!\n',
-        '(Введите help для просмотра списка поддерживаемых команд)\n'
+        '(Введите help, для просмотра списка поддерживаемых команд)\n'
     )
     while True:
         user_command = input('Введите команду - ')
@@ -150,7 +155,7 @@ def secretary_program_start():
             new_doc_shelf_number = add_new_doc()
             print('\nНа полку "{}" добавлен новый документ:'.format(new_doc_shelf_number))
         elif user_command == 'd':
-            doc_number, deleted = delete_doc("11-2")
+            doc_number, deleted = delete_doc()
             if deleted:
                 print('Документ с номером "{}" был успешно удален'.format(doc_number))
         elif user_command == 'm':
